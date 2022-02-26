@@ -17,19 +17,15 @@ import {
 } from './utils/nftUtils';
 
 // Constants
+// const targetChainId = '0x13881'; // Polygon Mumbai Testnet
+const targetChainId = '0x89'; // Polygon Mainnet
 const COST = '0';
 const TWITTER_HANDLE = 'zh';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
-  const {
-    ethereum,
-    targetChainId,
-    network,
-    switchNetwork,
-    connectedAccount,
-    connectAccount,
-  } = useMetaMaskAccount();
+  const { ethereum, network, switchNetwork, connectedAccount, connectAccount } =
+    useMetaMaskAccount(targetChainId);
   const nftContract = getNftContract(ethereum);
 
   const [nfts, setNfts] = useState([]);

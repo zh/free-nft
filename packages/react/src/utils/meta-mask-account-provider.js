@@ -3,7 +3,7 @@ import { networks } from './networks';
 
 const MetaMaskAccountContext = createContext();
 
-const targetChainId = '0x89';
+let targetChainId = '0x89'; // Polygon by default
 
 export default function MetaMaskAccountProvider({ children }) {
   const [ethereum, setEthereum] = useState(undefined);
@@ -66,7 +66,7 @@ export default function MetaMaskAccountProvider({ children }) {
   const switchNetwork = async () => {
     if (window.ethereum) {
       try {
-        // Try to switch to the Mumbai testnet
+        // Try to switch to the target testnet
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: targetChainId }], // Check networks.js for hexadecimal network ids
@@ -110,7 +110,6 @@ export default function MetaMaskAccountProvider({ children }) {
     ethereum,
     connectedAccount,
     connectAccount,
-    targetChainId,
     network,
     switchNetwork,
   };
@@ -122,6 +121,7 @@ export default function MetaMaskAccountProvider({ children }) {
   );
 }
 
-export function useMetaMaskAccount() {
+export function useMetaMaskAccount(chainId) {
+  targetChainId = chainId;
   return useContext(MetaMaskAccountContext);
 }
